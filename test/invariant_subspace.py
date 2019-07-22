@@ -1,9 +1,9 @@
 from __future__ import print_function
 import numpy as np
 from scipy.linalg import solve, solve_sylvester
-from constraints import base_constraints
-from Lagrangian import Lagrangian
-from Lagrangian import state_keys as sk
+from lagrange_rayleigh.core.constraints import base_constraints
+from lagrange_rayleigh.core.Lagrangian import Lagrangian
+from lagrange_rayleigh.core.Lagrangian import state_keys as sk
 
 
 def make_symmetric(ar):
@@ -212,10 +212,10 @@ class stiefel(base_constraints):
 
 
 def _test_invariance_subspace():
-    from utils import gen_random_symmetric
-    from solver import explicit_newton_raphson, rayleigh_quotient_iteration
-    from solver import explicit_chebyshev, rayleigh_chebyshev
-    # from Lagrangian import state_requests as sr
+    from lagrange_rayleigh.core.utils import gen_random_symmetric
+    from lagrange_rayleigh.core.solver import explicit_newton_raphson
+    from lagrange_rayleigh.core.solver import rayleigh_quotient_iteration
+    # from lagrange_rayleigh.core.solver import explicit_chebyshev, rayleigh_chebyshev
 
     np.random.seed(0)
     n = 7
