@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import numpy as np
 
 
@@ -18,7 +20,7 @@ class grassmann(object):
             x_new = np.dot(q, np.diag(np.sign(np.sign(np.diag(r))+.5)))
         else:
             x_new = x + u
-            for i in xrange(self._k):
+            for i in range(self._k):
                 q, r = np.linalg.qr(x_new[i])
                 x_new[i] = np.dot(q, np.diag(np.sign(np.sign(np.diag(r))+.5)))
         return x_new
@@ -52,7 +54,7 @@ def rayleigh_iteration_schur(gr, x0, niter=10, verbose=False):
         if err < tol:
             break
         if verbose:
-            print Lval
+            print(Lval)
 
         h_tensor = np.kron(x, np.eye(p))
         rhs = np.concatenate([
@@ -147,7 +149,7 @@ def nonlinear_eigenspace(L, p=10, alpha=1.):
     x0 = v[:, :p]
     gr = grass_nonlinear_eigen(alpha, L, n, p)
     res = rayleigh_iteration_schur(gr, x0, niter=10)
-    print res
+    print(res)
 
     
 if __name__ == '__main__':

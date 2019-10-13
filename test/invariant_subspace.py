@@ -123,7 +123,7 @@ class invariant_subspace(Lagrangian):
         self._state['L'] = self['F'] - np.dot(x, lbd)
 
         s0 = lbd.shape[0]
-        sa = (s0 * (s0 + 1)) / 2
+        sa = (s0 * (s0 + 1)) // 2
         
         zeta = np.zeros((x.shape[0], x.shape[1], sa))
         for i in range(lbd.shape[0]):
@@ -205,7 +205,7 @@ class stiefel(base_constraints):
             x_new = np.dot(q, np.diag(np.sign(np.sign(np.diag(r))+.5)))
         else:
             x_new = x + u
-            for i in xrange(self._k):
+            for i in range(self._k):
                 q, r = np.linalg.qr(x_new[i])
                 x_new[i] = np.dot(q, np.diag(np.sign(np.sign(np.diag(r))+.5)))
         return x_new

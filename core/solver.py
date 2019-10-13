@@ -1,6 +1,7 @@
+from __future__ import print_function
 import numpy as np
-from Lagrangian import state_keys as sk
-from Lagrangian import state_requests as sr
+from .Lagrangian import state_keys as sk
+from .Lagrangian import state_requests as sr
 _MAX_ERR = 1e-5
 _MAX_ITER = 100
 
@@ -40,8 +41,8 @@ def explicit_newton_raphson(
 
         eta = -nu + lagrangian.tensordot(zeta, lbd)
         if verbose:
-            print 'i= %d' % i
-            print "err_bfore = %s" % str(lagrangian.L(x + eta, lbd))
+            print('i= %d' % i)
+            print("err_bfore = %s" % str(lagrangian.L(x + eta, lbd)))
 
         if feasible:
             xf = lagrangian.constraints.retraction(x, eta)
@@ -51,12 +52,12 @@ def explicit_newton_raphson(
             x += eta
 
         if verbose:
-            print "zeta = %s" % str(zeta)
-            print "eta = %s" % str(eta)
-            print "x=%s lbd=%s" % (str(x), str(lbd))
-            print "err = %s" % str(lagrangian.L(x, lbd))
+            print("zeta = %s" % str(zeta))
+            print("eta = %s" % str(eta))
+            print("x=%s lbd=%s" % (str(x), str(lbd)))
+            print("err = %s" % str(lagrangian.L(x, lbd)))
             if feasible and (xf is None):
-                print "cannot reach constraint use infeasible"
+                print("cannot reach constraint use infeasible")
 
         i += 1        
     return {'x': x, 'lbd': lbd,
@@ -129,13 +130,13 @@ def explicit_chebyshev(
             x += eta_tot
 
         if verbose:
-            print "i=%d" % i
-            print "zeta = %s" % str(zeta)
-            print "eta = %s" % str(eta)
-            print "x=%s lbd=%s" % (str(x), str(lbd))
-            print "err = %s" % str(lagrangian.L(x, lbd))
+            print("i=%d" % i)
+            print("zeta = %s" % str(zeta))
+            print("eta = %s" % str(eta))
+            print("x=%s lbd=%s" % (str(x), str(lbd)))
+            print("err = %s" % str(lagrangian.L(x, lbd)))
             if feasible and (xf is None):
-                print "cannot reach constraint use infeasible"
+                print("cannot reach constraint use infeasible")
 
         i += 1        
     return {'x': x, 'lbd': lbd,
@@ -181,13 +182,13 @@ def implicit_newton_raphson(
             x += eta
 
         if verbose:
-            print "i=%d" % i
-            print "zeta = %s" % str(zeta)
-            print "eta = %s" % str(eta)
-            print "x=%s lbd=%s" % (str(x), str(lbd))
-            print "err = %s" % str(lagrangian.L(x, lbd))
+            print("i=%d" % i)
+            print("zeta = %s" % str(zeta))
+            print("eta = %s" % str(eta))
+            print("x=%s lbd=%s" % (str(x), str(lbd)))
+            print("err = %s" % str(lagrangian.L(x, lbd)))
             if feasible and (xf is None):
-                print "cannot reach constraint use infeasible"
+                print("cannot reach constraint use infeasible")
         i += 1
     return {'x': x, 'lbd': lbd,
             'n_iter': i, 'err': lagrangian.L(x, lbd)}
@@ -195,7 +196,8 @@ def implicit_newton_raphson(
 
 def rayleigh_quotient_iteration(
         lagrangian, x0, tangent_rayleigh=True,
-        max_err=_MAX_ERR, max_iter=_MAX_ITER, verbose=False):
+        max_err=_MAX_ERR, max_iter=_MAX_ITER, verbose=False,
+        exit_by_diff=False):
     """Implement rayleigh iteration
     """
     assert(lagrangian.F is not None)
@@ -221,11 +223,14 @@ def rayleigh_quotient_iteration(
         
         x = lagrangian.constraints.retraction(x, eta)
         if verbose:
-            print 'i=%d' % i
-            print "zeta = %s" % str(zeta)
-            print "eta = %s" % str(eta)
-            print "x=%s lbd=%s" % (str(x), str(lagrangian['RAYLEIGH']))
-            print "err = %s" % str(lagrangian.L(x, lagrangian['RAYLEIGH']))
+            print('i=%d' % i)
+            print("zeta = %s" % str(zeta))
+            print("eta = %s" % str(eta))
+            print("x=%s lbd=%s" % (str(x), str(lagrangian['RAYLEIGH'])))
+            print("err = %s" % str(lagrangian.L(x, lagrangian['RAYLEIGH'])))
+        if exit_by_diff and (np.linalg.norm(eta) < max_err):
+            break
+
         i += 1
     lbd = lagrangian['RAYLEIGH']
     return {'x': x, 'lbd': lbd,
@@ -233,7 +238,8 @@ def rayleigh_quotient_iteration(
 
 
 def rayleigh_chebyshev(lagrangian, x0,
-                       max_err=_MAX_ERR, max_iter=_MAX_ITER, verbose=False):
+                       max_err=_MAX_ERR, max_iter=_MAX_ITER,
+                       verbose=False, exit_by_diff=False):
 
     """Implement rayleigh chebyshev iteration
     """
@@ -276,12 +282,15 @@ def rayleigh_chebyshev(lagrangian, x0,
             zeta, j_c_zeta_m_j_c_t)
 
         x = lagrangian.constraints.retraction(x, tau)
+
         if verbose:
-            print 'i=%d' % i
-            print "zeta = %s" % str(zeta)
-            print "tau = %s" % str(tau)
-            print "x=%s lbd=%s" % (str(x), str(lagrangian['RAYLEIGH']))
-            print "err = %s" % str(lagrangian.L(x, lagrangian['RAYLEIGH']))
+            print('i=%d' % i)
+            print("zeta = %s" % str(zeta))
+            print("tau = %s" % str(tau))
+            print("x=%s lbd=%s" % (str(x), str(lagrangian['RAYLEIGH'])))
+            print("err = %s" % str(lagrangian.L(x, lagrangian['RAYLEIGH'])))
+        if exit_by_diff and (np.linalg.norm(tau) < max_err):
+            break
         i += 1
     lbd = lagrangian['RAYLEIGH']
     return {'x': x, 'lbd': lbd,

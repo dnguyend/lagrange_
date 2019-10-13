@@ -1,6 +1,7 @@
+from __future__ import print_function
 import numpy as np
 from scipy.optimize import root
-from constraints import base_constraints
+from .constraints import base_constraints
 
 
 class parametrized_constraints(base_constraints):
@@ -73,8 +74,8 @@ class parametrized_constraints(base_constraints):
         if res['success'] or (np.linalg.norm(res['fun']) < 1.e-5):
             return x + h + np.dot(J_C_X.T, res['x'])
         else:
-            print 'Failed'
-            print res
+            print('Failed')
+            print(res)
             return None
 
         

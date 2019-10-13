@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import numpy as np
 from scipy.optimize import newton
 
@@ -155,7 +157,7 @@ def _test_implcit():
     
     res_e = implicit_newton_raphson(
         e, x0, lbd0, feasible=False, verbose=False)
-    print res_e
+    print(res_e)
     """
     ei, v = np.linalg.eig(A)
     print ei
@@ -165,11 +167,11 @@ def _test_implcit():
     res_f = implicit_newton_raphson(
         e, res_e['x'] + .25,
         res_e['lbd']+.25, feasible=True, verbose=True)
-    print res_f
+    print(res_f)
     
     res_f = implicit_newton_raphson(
         e, x0, lbd0, feasible=True)
-    print res_f
+    print(res_f)
     
 
 def _test_quadratic_eigen():
@@ -204,14 +206,14 @@ def _test_quadratic_eigen():
     
     res_e = implicit_newton_raphson(
         e, x0, lbd0, feasible=False)
-    print res_e
+    print(res_e)
 
     # now do retraction:
     res_f = implicit_newton_raphson(
         e, x0,
         lbd0, feasible=True)
 
-    print res_f
+    print(res_f)
 
     # now do non symmetric
     M = gen_random_real_eigen(k)
@@ -226,14 +228,14 @@ def _test_quadratic_eigen():
     
     res_i_n = implicit_newton_raphson(
         en, x0, lbd0, feasible=False)
-    print res_i_n
+    print(res_i_n)
 
     # now do retraction:
     res_f_n = implicit_newton_raphson(
         en, x0,
         lbd0, feasible=True)
 
-    print res_f_n
+    print(res_f_n)
     
     
 def test_rayleigh_implicit():
@@ -331,27 +333,27 @@ def test_rayleigh_implicit():
                 np.dot(PLx.T, PLx), np.dot(PLx.T, PL))
             x = x + eta
             x = x / np.linalg.norm(x)
-            print eta
-            print L(x, lbd)
+            print(eta)
+            print(L(x, lbd))
 
     def test_derive(x, lbd):
         LX = L(x, lbd)
         hh = x * x * 1e-4
         h = 1.e-4
-        print L(x,  lbd + h) - LX
-        print Llbd(x, lbd)
+        print(L(x,  lbd + h) - LX)
+        print(Llbd(x, lbd))
 
-        print L(x + hh,  lbd) - LX
-        print np.dot(Lx(x, lbd), hh)
+        print(L(x + hh,  lbd) - LX)
+        print(np.dot(Lx(x, lbd), hh))
         
         x_ = x_concat(x, lbd)
-        print _bb(x_)
+        print(_bb(x_))
         hh_ = x_ * x_ * 1e-4
-        print _bb(x_ + hh_) - _bb(x_)
-        print np.dot(_bb_dev(x_), hh_)
+        print(_bb(x_ + hh_) - _bb(x_))
+        print(np.dot(_bb_dev(x_), hh_))
 
-        print _cc(x_ + hh_) - _cc(x_)
-        print np.dot(_cc_dev(x_), hh_)
+        print(_cc(x_ + hh_) - _cc(x_))
+        print(np.dot(_cc_dev(x_), hh_))
         
     def _bb(x_):
         return 0.5 * np.tensordot(np.tensordot(B, x_, 1), x_, 1)
@@ -475,24 +477,24 @@ def _test_rayleigh_implicit_multi_constraints():
             eta = -np.linalg.solve(
                 np.dot(PLx.T, PLx), np.dot(PLx.T, PL))
             x = retract(x + eta)
-            print eta
-            print L(x, lbd)
+            print(eta)
+            print(L(x, lbd))
 
     def test_derive(x, lbd):
         LX = L(x, lbd)
         hh = x * x * 1e-4
         h = np.random.randint(2, 3, k) * 1.e-4
-        print L(x,  lbd + h) - LX
-        print np.dot(Llbd(x, lbd), h)
+        print(L(x,  lbd + h) - LX)
+        print(np.dot(Llbd(x, lbd), h))
 
-        print L(x + hh,  lbd) - LX
-        print np.dot(Lx(x, lbd), hh)
+        print(L(x + hh,  lbd) - LX)
+        print(np.dot(Lx(x, lbd), hh))
 
         NX = N(x, lbd)
-        print N(x,  lbd + h) - NX
-        print np.dot(Nlbd(x, lbd), h)
-        print N(x + hh,  lbd) - NX
-        print np.dot(Nx(x, lbd), hh)
+        print(N(x,  lbd + h) - NX)
+        print(np.dot(Nlbd(x, lbd), h))
+        print(N(x + hh,  lbd) - NX)
+        print(np.dot(Nx(x, lbd), hh))
         
     
 if __name__ == '__main__':

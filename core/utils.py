@@ -123,6 +123,43 @@ def vech_embedding_tensor(p):
     """
     ret = np.zeros((p*p, (p*(p+1)) // 2), dtype=float)
     rows, cols = np.triu_indices(p)
-    ret[rows*p+cols, xrange(len(rows))] = 1
-    ret[cols*p+rows, xrange(len(rows))] = 1
+    ret[rows*p+cols, range(len(rows))] = 1
+    ret[cols*p+rows, range(len(rows))] = 1
     return ret    
+
+
+def generate_symmetric_tensor(k, m):
+    """Generating symmetric tensor size k,m
+    """
+    A = np.full(tuple(m*[k]), np.nan)
+    current_idx = np.zeros(m, dtype=int)
+    active_i = m - 1
+    A[tuple(current_idx)] = np.random.rand()
+    while True:
+        if current_idx[active_i] < k - 1:
+            current_idx[active_i] += 1
+            if np.isnan(A[tuple(current_idx)]):
+                i_s = tuple(sorted(current_idx))
+                if np.isnan(A[i_s]):
+                    A[i_s] = np.random.rand()
+                    # print('Doing %s' % str(i_s))
+                A[tuple(current_idx)] = A[i_s]
+                # print('Doing %s' % str(current_idx))
+        elif active_i == 0:
+            break
+        else:
+            next_pos = np.where(current_idx[:active_i] < k-1)[0]
+            if next_pos.shape[0] == 0:
+                break
+            current_idx[next_pos[-1]] += 1
+            current_idx[next_pos[-1]+1:] = 0
+                        
+            active_i = m - 1
+            if np.isnan(A[tuple(current_idx)]):
+                i_s = tuple(sorted(current_idx))
+                if np.isnan(A[i_s]):
+                    A[i_s] = np.random.rand()
+                    # print('Doing %s' % str(i_s))
+                A[tuple(current_idx)] = A[i_s]
+                # print('Doing %s' % str(current_idx))
+    return A

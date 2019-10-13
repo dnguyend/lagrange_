@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import numpy as np
 from lagrange_rayleigh.core.vector_lagrangian import explicit_vector_lagrangian
 from lagrange_rayleigh.core.parametrized_constraints import parametrized_constraints
@@ -253,7 +255,7 @@ def _test_parametrized_constraints():
     
     res_e = explicit_newton_raphson(
         e, x0, lbd0, verbose=True, feasible=False)
-    print res_e
+    print(res_e)
     """
     ei, v = np.linalg.eig(A)
     print ei
@@ -265,7 +267,7 @@ def _test_parametrized_constraints():
         e, x1,
         res_e['lbd']+.4, max_err=1e-3, feasible=True, verbose=True)
 
-    print res_f
+    print(res_f)
 
     # res_ray = rayleigh_quotient_iteration(
     # e, x0)
@@ -273,8 +275,8 @@ def _test_parametrized_constraints():
         x1 = gen_start_point()
         res_ray = rayleigh_quotient_iteration(
             e, x1)
-        print 'x1= %s ' % str(x1)
-        print res_ray
+        print('x1= %s ' % str(x1))
+        print(res_ray)
 
     # now try chebyshev
     second_derivs = [second_deriv1, second_deriv2]
@@ -287,13 +289,13 @@ def _test_parametrized_constraints():
     lbd0 = res_ray['lbd'] + .3
     res_cheb = explicit_chebyshev(
         echeb, x0, lbd0, feasible=False)
-    print res_cheb
+    print(res_cheb)
 
     # rayleigh_chebyshev
     for i in range(10):
         x1 = gen_start_point()
         res_ray_chev = rayleigh_chebyshev(echeb, x1)
-        print res_ray_chev
+        print(res_ray_chev)
     
 
 def _test_nonlinear_parametrized_constraints():
@@ -406,7 +408,7 @@ def _test_nonlinear_parametrized_constraints():
     x0 = gen_start_point()
     res_e = explicit_newton_raphson(
         e, x0, lbd0, feasible=False)
-    print res_e
+    print(res_e)
     """
     ei, v = np.linalg.eig(A)
     print ei
@@ -418,7 +420,7 @@ def _test_nonlinear_parametrized_constraints():
         e, x1,
         res_e['lbd']+.3, max_err=1e-3, feasible=True, verbose=True)
 
-    print res_f
+    print(res_f)
 
     # res_ray = rayleigh_quotient_iteration(
     # e, x0)
@@ -426,8 +428,8 @@ def _test_nonlinear_parametrized_constraints():
         x1 = gen_start_point()
         res_ray = rayleigh_quotient_iteration(
             e, x1)
-        print 'x1= %s ' % str(x1)
-        print res_ray
+        print('x1= %s ' % str(x1))
+        print(res_ray)
 
     # now try chebyshev
     second_derivs = [second_deriv1, second_deriv2]
@@ -440,13 +442,13 @@ def _test_nonlinear_parametrized_constraints():
     lbd0 = res_ray['lbd'] + .3
     res_cheb = explicit_chebyshev(
         echeb, x0, lbd0, feasible=False)
-    print res_cheb
+    print(res_cheb)
     
     # rayleigh_chebyshev
     for i in range(10):
         x1 = gen_start_point()
         res_ray_chev = rayleigh_chebyshev(echeb, x1)
-        print res_ray_chev
+        print(res_ray_chev)
 
         
 if __name__ == '__main__':

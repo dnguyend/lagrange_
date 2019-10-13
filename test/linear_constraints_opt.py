@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import numpy as np
 
 k = 2
@@ -48,9 +50,9 @@ if __name__ == '__main__':
         nu = np.linalg.solve(J_FX, FX)
         eta = np.dot(zeta, rayleigh) - nu
         x = project(x + eta)
-        print x
-        print np.dot(C, x) - b
-        print F(x) - np.dot(C.T, rayleigh)
+        print(x)
+        print(np.dot(C, x) - b)
+        print(F(x) - np.dot(C.T, rayleigh))
 
     CTCCTinvC = np.dot(C.T, CCTinvC)
     P = np.eye(n) - CTCCTinvC
@@ -75,9 +77,9 @@ if __name__ == '__main__':
         # x1 = project(x1_)
         # x1 = np.dot(CTCCTinv, b) + np.dot(P, x1_)
         # x1 = np.dot(CTCCTinv, b) - np.dot(CTCCTinvC, x1) + np.dot(ImPAinvP, FX1)
-        print x1
-        print np.dot(C, x1) - b        
-        print F(x1) - np.dot(C.T, rayleigh)
+        print(x1)
+        print(np.dot(C, x1) - b)
+        print(F(x1) - np.dot(C.T, rayleigh))
 
     x2 = project(x0)
     for i in range(20):
@@ -90,21 +92,21 @@ if __name__ == '__main__':
         lbd2 = np.linalg.solve(np.dot(C, zeta), np.dot(C, nu))
         eta = np.dot(zeta, lbd2) - nu
         x2 = project(x2 + eta)
-        print x2
-        print np.dot(C, x2) - b
-        print F(x2) - np.dot(C.T, rayleigh)
+        print(x2)
+        print(np.dot(C, x2) - b)
+        print(F(x2) - np.dot(C.T, rayleigh))
 
     # direct result        
     l1 = np.dot(C, np.linalg.solve(a, C.T))
     l2 = np.dot(C, np.linalg.solve(a, d))
     ll = np.linalg.solve(l1, l2 + b)  # lambda
     xdirect = np.linalg.solve(a, np.dot(C.T, ll) - d)
-    print xdirect
+    print(xdirect)
 
     # Iterative results
     xx3 = CTCCTinvb - PAinvPd
     xx4 = CTCCTinvC + PAinvPA
-    print np.linalg.solve(xx4, xx3)
+    print(np.linalg.solve(xx4, xx3))
 
 
 

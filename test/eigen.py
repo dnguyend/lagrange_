@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import lagrange_rayleigh.core.utils as utils
 from lagrange_rayleigh.core.vector_lagrangian import explicit_vector_lagrangian
@@ -133,10 +134,10 @@ def _test_eigenvector():
     e.constraints = sphere
     res_e = explicit_newton_raphson(
         e, x0, np.array([1.]), feasible=False, verbose=True)
-    print res_e
+    print(res_e)
     ei, v = np.linalg.eigh(A)
-    print ei
-    print v
+    print(ei)
+    print(v)
     # now do retraction:
     for i in range(10):
         x1 = np.random.randint(-5, 5, k) / 10.
@@ -144,27 +145,27 @@ def _test_eigenvector():
 
         res_f = explicit_newton_raphson(
             e, x1, np.array([1.]), feasible=True, verbose=False)
-        print res_f
-        print e.L(res_f['x'], res_f['lbd'])
+        print(res_f)
+        print(e.L(res_f['x'], res_f['lbd']))
 
     # now do explicit_chebyshev
     
     res_chev = explicit_chebyshev(
         e, x0, np.array([1.]), feasible=False, verbose=True)
-    print res_chev
+    print(res_chev)
 
     res_chev_f = explicit_chebyshev(
         e, x0, np.array([1.]), feasible=True, verbose=True)
-    print res_chev_f
+    print(res_chev_f)
 
     # now do rayleigh
     res_ray = rayleigh_quotient_iteration(e, x0, verbose=True)
-    print res_ray
-    print e.L(res_ray['x'], res_ray['lbd'])
+    print(res_ray)
+    print(e.L(res_ray['x'], res_ray['lbd']))
 
     # now do rayleigh chebyshev            
     res_ray_cheb = rayleigh_chebyshev(e, x0, verbose=True)
-    print res_ray_cheb
+    print(res_ray_cheb)
     
     # now do the non symmetric case
     B = utils.gen_random_real_eigen(k)
@@ -172,30 +173,30 @@ def _test_eigenvector():
     e.constraints = sphere
     res_e = explicit_newton_raphson(
         e, x0, np.array([1.]), feasible=False, verbose=True)
-    print res_e
+    print(res_e)
     ei, v = np.linalg.eig(B)
-    print ei
-    print v
+    print(ei)
+    print(v)
     # now do retraction:
     res_f = explicit_newton_raphson(
         e, x0, np.array([1.]), feasible=True, verbose=True)
-    print res_f
+    print(res_f)
 
     res_chev = explicit_chebyshev(
         e, x0, np.array([1.]), feasible=False, verbose=True)
-    print res_chev
+    print(res_chev)
 
     res_chev = explicit_chebyshev(
         e, x0, np.array([1.]), feasible=True, verbose=True)
-    print res_chev
+    print(res_chev)
 
     res_ray = rayleigh_quotient_iteration(e, x0, verbose=True)
-    print res_ray
-    print e.L(res_ray['x'], res_ray['lbd'])
+    print(res_ray)
+    print(e.L(res_ray['x'], res_ray['lbd']))
 
     # now do rayleigh chebyshev        
     res_ray_cheb = rayleigh_chebyshev(e, x0, verbose=True)
-    print res_ray_cheb
+    print(res_ray_cheb)
 
     
 def _test_eigen_linear():
@@ -242,32 +243,32 @@ def _test_eigen_linear():
     e.constraints = hyperplan
     res_e = explicit_newton_raphson(
         e, x0, np.array([1.]), feasible=False)
-    print res_e
+    print(res_e)
     ei, v = np.linalg.eigh(A)
-    print ei
-    print v
+    print(ei)
+    print(v)
     # now do retraction:
     res_f = explicit_newton_raphson(
         e, x0, np.array([1.]), feasible=True)
-    print res_f
+    print(res_f)
     
     res_cheb = explicit_chebyshev(
         e, x0, np.array([1.]), feasible=False, verbose=True)
-    print res_cheb
+    print(res_cheb)
 
     res_cheb = explicit_chebyshev(
         e, x0, np.array([1.]), feasible=True, verbose=True)
-    print e.L(res_cheb['x'], res_cheb['lbd'])
-    print res_cheb
+    print(e.L(res_cheb['x'], res_cheb['lbd']))
+    print(res_cheb)
 
     res_ray = rayleigh_quotient_iteration(e, x0, verbose=True)
-    print res_ray
-    print e.L(res_ray['x'], res_ray['lbd'])
+    print(res_ray)
+    print(e.L(res_ray['x'], res_ray['lbd']))
 
     # now do rayleigh chebyshev        
     res_ray_cheb = rayleigh_chebyshev(e, x0, verbose=True)
-    print e.L(res_ray_cheb['x'], res_ray_cheb['lbd'])
-    print res_ray_cheb
+    print(e.L(res_ray_cheb['x'], res_ray_cheb['lbd']))
+    print(res_ray_cheb)
 
     # example 2 non symmetric
     B = utils.gen_random_real_eigen(k)
@@ -275,40 +276,40 @@ def _test_eigen_linear():
     en.constraints = hyperplan
     res_e = explicit_newton_raphson(
         en, x0, np.array([1.]), feasible=False)
-    print res_e
-    print en.L(res_e['x'], res_e['lbd'])
-    print en.constraints.equality(res_e['x'])
+    print(res_e)
+    print(en.L(res_e['x'], res_e['lbd']))
+    print(en.constraints.equality(res_e['x']))
 
     ei, v = np.linalg.eig(B)
-    print ei
-    print v
+    print(ei)
+    print(v)
     # now do retraction:
     res_f = explicit_newton_raphson(
         en, x0, np.array([1.]), feasible=True, verbose=True)
-    print res_f
-    print en.L(res_f['x'], res_f['lbd'])
-    print en.constraints.equality(res_f['x'])
+    print(res_f)
+    print(en.L(res_f['x'], res_f['lbd']))
+    print(en.constraints.equality(res_f['x']))
 
     res_chev = explicit_chebyshev(
         en, x0, np.array([1.]), feasible=False, verbose=True)
-    print res_chev
-    print en.L(res_chev['x'], res_chev['lbd'])
-    print en.constraints.equality(res_chev['x'])
+    print(res_chev)
+    print(en.L(res_chev['x'], res_chev['lbd']))
+    print(en.constraints.equality(res_chev['x']))
 
     res_chev = explicit_chebyshev(
         en, x0, np.array([1.]), feasible=True, verbose=True)
-    print res_chev
-    print en.L(res_chev['x'], res_chev['lbd'])
-    print en.constraints.equality(res_chev['x'])
+    print(res_chev)
+    print(en.L(res_chev['x'], res_chev['lbd']))
+    print(en.constraints.equality(res_chev['x']))
 
     res_ray = rayleigh_quotient_iteration(en, x0, verbose=True)
-    print res_ray
-    print en.L(res_ray['x'], res_ray['lbd'])
+    print(res_ray)
+    print(en.L(res_ray['x'], res_ray['lbd']))
 
     # now do rayleigh chebyshev        
     res_ray_cheb = rayleigh_chebyshev(en, x0, verbose=True)
-    print en.L(res_ray_cheb['x'], res_ray_cheb['lbd'])
-    print res_ray_cheb
+    print(en.L(res_ray_cheb['x'], res_ray_cheb['lbd']))
+    print(res_ray_cheb)
 
     # now change method dont use HT
     def calc_J_RAYLEIGH(self, x):
@@ -320,12 +321,12 @@ def _test_eigen_linear():
     en1 = eigen_ht_lagrange(B, z)
     en1.constraints = hyperplan
     res_ray1 = rayleigh_quotient_iteration(en1, x0, verbose=True)
-    print res_ray1
-    print en1.L(res_ray1['x'], res_ray1['lbd'])
+    print(res_ray1)
+    print(en1.L(res_ray1['x'], res_ray1['lbd']))
     
     res_ray_cheb1 = rayleigh_chebyshev(en1, x0, verbose=True)
-    print en1.L(res_ray_cheb1['x'], res_ray_cheb1['lbd'])
-    print res_ray_cheb1
+    print(en1.L(res_ray_cheb1['x'], res_ray_cheb1['lbd']))
+    print(res_ray_cheb1)
     
 
 if __name__ == '__main__':

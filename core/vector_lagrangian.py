@@ -1,9 +1,9 @@
 from __future__ import print_function
 import numpy as np
 from scipy.linalg import solve
-from Lagrangian import Lagrangian
-from Lagrangian import state_requests as sr
-from Lagrangian import state_keys as sk
+from .Lagrangian import Lagrangian
+from .Lagrangian import state_requests as sr
+from .Lagrangian import state_keys as sk
 
 
 class explicit_vector_lagrangian(Lagrangian):
