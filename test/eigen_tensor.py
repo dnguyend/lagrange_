@@ -12,7 +12,8 @@ from lagrange_rayleigh.core.solver import rayleigh_quotient_iteration
 from lagrange_rayleigh.core.solver import rayleigh_chebyshev
 from lagrange_rayleigh.core.eigen_tensor_solver import\
     orthogonal_newton_correction_method, schur_form_rayleigh,\
-    symmetric_tv_mode_product
+    symmetric_tv_mode_product, schur_form_rayleigh_chebyshev_linear,\
+    schur_form_rayleigh_chebyshev
 
 
 class eigen_tensor_lagrange(explicit_vector_lagrangian):
@@ -118,10 +119,10 @@ def _test_eigen_tensor(k, m, max_err, max_itr, n_test):
 
         # do orthogonal
         t_start = time.time()
-        o_x, o_lbd, ctr, converge = orthogonal_newton_correction_method(
+        o_x, o_lbd, o_ctr, converge = orthogonal_newton_correction_method(
             A, max_itr, max_err, x_init=x0)
         t_end = time.time()
-        o_ncm_cnt[jj] = ctr
+        o_ncm_cnt[jj] = o_ctr
         o_ncm_lbd[jj] = o_lbd
         o_ncm_err[jj] = np.linalg.norm(
             symmetric_tv_mode_product(
@@ -130,8 +131,15 @@ def _test_eigen_tensor(k, m, max_err, max_itr, n_test):
 
         # do schur_form_rayleigh
         t_start = time.time()
-        s_x, s_lbd, ctr, converge = schur_form_rayleigh(
-            A, max_itr, max_err, x_init=x0)
+        if False:
+            s_x, s_lbd, ctr, converge = schur_form_rayleigh(
+                A, max_itr, max_err, x_init=x0)
+        else:
+            # s_x, s_lbd, ctr, converge = schur_form_rayleigh_chebyshev_linear(
+            # A, max_itr, max_err, x_init=x0, do_chebyshev=True)
+            s_x, s_lbd, ctr, converge = schur_form_rayleigh_chebyshev(
+                A, max_itr, max_err, x_init=x0, do_chebyshev=True)
+
         t_end = time.time()
         schur_cnt[jj] = ctr
         schur_lbd[jj] = s_lbd
@@ -198,13 +206,16 @@ def _test_eigen_tensor(k, m, max_err, max_itr, n_test):
     
 if __name__ == '__main__':
     np.random.seed(0)
-    k = 15
-    m = 4
+    k = 20
+    m = 3
     max_err = 1e-10
     max_itr = 200
-    n_test = 500
+    n_test = 100
 
     summ = _test_eigen_tensor(k, m, max_err, max_itr, n_test)
+    print(summ[[a for a in summ.columns if 'err' in a]].describe())
+    print(summ[[a for a in summ.columns if 'iter' in a]].describe())
+    print(summ[[a for a in summ.columns if 'lbd' in a]].describe())
     print(summ[[
         'o_ncm_time', 'schur_time', 'ray_time', 'ray_cheb_time']].describe())
     summ.to_csv('/tmp/c.csv')
