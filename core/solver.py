@@ -220,7 +220,7 @@ def rayleigh_quotient_iteration(
         else:
             # lbd2 = lagrangian.j_c_zeta_solver(zeta, j_c_nu)
             eta = lagrangian.tensordot(zeta, lagrangian['RAYLEIGH']) - nu
-        
+        x_old = x.copy()
         x = lagrangian.constraints.retraction(x, eta)
         if verbose:
             print('i=%d' % i)
@@ -228,7 +228,7 @@ def rayleigh_quotient_iteration(
             print("eta = %s" % str(eta))
             print("x=%s lbd=%s" % (str(x), str(lagrangian['RAYLEIGH'])))
             print("err = %s" % str(lagrangian.L(x, lagrangian['RAYLEIGH'])))
-        if exit_by_diff and (np.linalg.norm(eta) < max_err):
+        if exit_by_diff and (np.linalg.norm(x - x_old) < max_err):
             break
 
         i += 1
@@ -280,7 +280,7 @@ def rayleigh_chebyshev(lagrangian, x0,
 
         tau = tau_ - lagrangian.tensordot(
             zeta, j_c_zeta_m_j_c_t)
-
+        x_old = x.copy()
         x = lagrangian.constraints.retraction(x, tau)
 
         if verbose:
@@ -289,7 +289,7 @@ def rayleigh_chebyshev(lagrangian, x0,
             print("tau = %s" % str(tau))
             print("x=%s lbd=%s" % (str(x), str(lagrangian['RAYLEIGH'])))
             print("err = %s" % str(lagrangian.L(x, lagrangian['RAYLEIGH'])))
-        if exit_by_diff and (np.linalg.norm(tau) < max_err):
+        if exit_by_diff and (np.linalg.norm(x-x_old) < max_err):
             break
         i += 1
     lbd = lagrangian['RAYLEIGH']
