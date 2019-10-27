@@ -273,29 +273,41 @@ def _test_parametrized_constraints():
     # e, x0)
     for i in range(10):
         x1 = gen_start_point()
-        res_ray = rayleigh_quotient_iteration(
-            e, x1)
-        print('x1= %s ' % str(x1))
-        print(res_ray)
+        try:
+            res_ray = rayleigh_quotient_iteration(
+                e, x1, verbose=False)
+            print('x1= %s ' % str(x1))
+            print(res_ray)
+        except Exception as e:
+            pass
 
     # now try chebyshev
-    second_derivs = [second_deriv1, second_deriv2]
-    echeb = vector_test_lagrange(A, H, calc_J_H, calc_J_H2)
-    cheb_constr = parametrized_constraints(
-        (n, ), funcs, derivs, second_derivs)
-    echeb.constraints = cheb_constr
+    for i in range(10):
+        try:
+            second_derivs = [second_deriv1, second_deriv2]
+            echeb = vector_test_lagrange(A, H, calc_J_H, calc_J_H2)
+            cheb_constr = parametrized_constraints(
+                (n, ), funcs, derivs, second_derivs)
+            echeb.constraints = cheb_constr
 
-    x0 = res_ray['x'] + .3
-    lbd0 = res_ray['lbd'] + .3
-    res_cheb = explicit_chebyshev(
-        echeb, x0, lbd0, feasible=False)
-    print(res_cheb)
-
+            x0 = res_ray['x'] + .3
+            lbd0 = res_ray['lbd'] + .3
+            res_cheb = explicit_chebyshev(
+                echeb, x0, lbd0, feasible=False)
+            print(res_cheb)
+            break
+        except:
+            pass
+    
     # rayleigh_chebyshev
     for i in range(10):
         x1 = gen_start_point()
-        res_ray_chev = rayleigh_chebyshev(echeb, x1)
-        print(res_ray_chev)
+        try:
+            print("Doing rayleigh_chebyshev")
+            res_ray_chev = rayleigh_chebyshev(echeb, x1)
+            print(res_ray_chev)
+        except Exception:
+            pass
     
 
 def _test_nonlinear_parametrized_constraints():
@@ -426,29 +438,39 @@ def _test_nonlinear_parametrized_constraints():
     # e, x0)
     for i in range(10):
         x1 = gen_start_point()
-        res_ray = rayleigh_quotient_iteration(
-            e, x1)
-        print('x1= %s ' % str(x1))
-        print(res_ray)
+        try:
+            res_ray = rayleigh_quotient_iteration(
+                e, x1)
+            print('x1= %s ' % str(x1))
+            print(res_ray)
+        except Exception:
+            pass
 
-    # now try chebyshev
-    second_derivs = [second_deriv1, second_deriv2]
-    echeb = vector_nonlinear_lagrange(A, B, H, calc_J_H, calc_J_H2)
-    cheb_constr = parametrized_constraints(
-        (n, ), funcs, derivs, second_derivs)
-    echeb.constraints = cheb_constr
+    for i in range(10):
+        # now try chebyshev
+        try:
+            second_derivs = [second_deriv1, second_deriv2]
+            echeb = vector_nonlinear_lagrange(A, B, H, calc_J_H, calc_J_H2)
+            cheb_constr = parametrized_constraints(
+                (n, ), funcs, derivs, second_derivs)
+            echeb.constraints = cheb_constr
 
-    x0 = res_ray['x'] + .3
-    lbd0 = res_ray['lbd'] + .3
-    res_cheb = explicit_chebyshev(
-        echeb, x0, lbd0, feasible=False)
-    print(res_cheb)
-    
+            x0 = res_ray['x'] + .3
+            lbd0 = res_ray['lbd'] + .3
+            res_cheb = explicit_chebyshev(
+                echeb, x0, lbd0, feasible=False)
+            print(res_cheb)
+            break
+        except Exception:
+            pass
     # rayleigh_chebyshev
     for i in range(10):
         x1 = gen_start_point()
-        res_ray_chev = rayleigh_chebyshev(echeb, x1)
-        print(res_ray_chev)
+        try:
+            res_ray_chev = rayleigh_chebyshev(echeb, x1)
+            print(res_ray_chev)
+        except Exception:
+            pass
 
         
 if __name__ == '__main__':

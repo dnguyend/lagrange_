@@ -239,7 +239,7 @@ def rayleigh_quotient_iteration(
 
 def rayleigh_chebyshev(lagrangian, x0,
                        max_err=_MAX_ERR, max_iter=_MAX_ITER,
-                       verbose=False, exit_by_diff=False):
+                       verbose=False, exit_by_diff=False, cutoff=2.0e-1):
 
     """Implement rayleigh chebyshev iteration
     """
@@ -259,20 +259,25 @@ def rayleigh_chebyshev(lagrangian, x0,
             lagrangian['F'])
 
         lbd = lagrangian['RAYLEIGH']
- 
-        eta = -nu + lagrangian.tensordot(zeta, lbd)
-        rhs_for_t = 0.5 * lagrangian.J_H2(eta, lbd)
-        rhs_for_t -= 0.5 * lagrangian.J_F2(eta)
-        j_r_nu = lagrangian.J_RAYLEIGH(eta)
-        """
-        rhs_for_t += np.tensordot(
-            lagrangian.J_H(eta), j_r_nu, len(j_r_nu.shape))
-        """
-        rhs_for_t += lagrangian.J_H(eta, j_r_nu)
+        j_c_nu = lagrangian.J_C(nu)
+        lbd2 = lagrangian.j_c_zeta_solver(zeta, j_c_nu)
+        eta = lagrangian.tensordot(zeta, lbd2) - nu
+        if np.linalg.norm(eta) < cutoff:
+            # eta = -nu + lagrangian.tensordot(zeta, lbd)
+            rhs_for_t = 0.5 * lagrangian.J_H2(eta, lbd)
+            rhs_for_t -= 0.5 * lagrangian.J_F2(eta)
+            j_r_nu = lagrangian.J_RAYLEIGH(eta)
+            """
+            rhs_for_t += np.tensordot(
+                lagrangian.J_H(eta), j_r_nu, len(j_r_nu.shape))
+            """
+            rhs_for_t += lagrangian.J_H(eta, j_r_nu)
 
-        T_ = lagrangian.eigen_solver(rhs_for_t)
-        # tau_ = T_ - nu
-        tau_ = T_ + eta
+            T_ = lagrangian.eigen_solver(rhs_for_t)
+            # tau_ = T_ - nu
+            tau_ = T_ + eta
+        else:
+            tau_ = eta.copy()
 
         j_c_t_ = lagrangian.J_C(tau_)
         j_c_zeta_m_j_c_t = lagrangian.j_c_zeta_solver(

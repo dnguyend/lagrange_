@@ -221,10 +221,10 @@ def check_results_complex_pairs():
         ['m', 'n']).mean()
     mean_by_m_n.n_multiple_eigen = sum_table[['m', 'n', 'n_multiple_eigen']].groupby(
         ['m', 'n']).mean()
-    mean_by_m_n.n_multiple_eigen /= mean_by_m_n.n_pairs
+    # mean_by_m_n.n_multiple_eigen = mean_by_m
     mean_by_m_n.time_90 /= mean_by_m_n.n_pairs
     mean_by_m_n.time_all /= mean_by_m_n.n_pairs
-
+    mean_by_m_n.drop(columns=['n_self_conj_pairs'], inplace=True)
 
     # from IPython.core.display import display, HTML
     with open('/tmp/sum.html', 'w') as hf:
