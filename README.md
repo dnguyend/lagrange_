@@ -9,5 +9,13 @@ We show an example where the method here provide an improvement to the eigen-ten
 We also show it leads to an algorithm to compute all complex eigenpairs (counted by Cartwright-Sturmfels formula):
 https://www.sciencedirect.com/science/article/pii/S0024379511004629
 
-The notebook demonstrating this algorithm can be found here.
+The notebooks demonstrating this algorithm can be found here - you need to open it on Google colab by clicking on the link:
+Eigentensor
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/EigenTensor.ipynb)
+
+Nonlinear Eigenvalue:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/NonLinearEigen.ipynb)
+
+Eigenvector:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/Eigen.ipynb)
+
