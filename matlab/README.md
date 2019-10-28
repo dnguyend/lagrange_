@@ -1,4 +1,27 @@
 This folder contains the matlab code for the project implementing two algorithms: real and complex Schur form RQI for tensor eigenpairs.
+The references are:
+
+Newton Correction Methods for Computing Real Eigenpairs of Symmetric Tensors
+Ariel Jaffe, Roi Weiss, and Boaz Nadler
+SIAM Journal on Matrix Analysis and Applications 2018 39:3, 1071-1094
+https://epubs.siam.org/action/showCitFormats?doi=10.1137%2F17M1133312
+
+The number of eigenvalues of a tensor
+Dustin Cartwright, Bernd Sturmfels
+Linear Algebra and its Applications
+Volume 438, Issue 2, 15 January 2013, Pages 942-952
+https://www.sciencedirect.com/science/article/pii/S0024379511004629
+
+And our paper in
+https://github.com/dnguyend/lagrange_rayleigh/blob/master/docs/LagrangeRayleigh.pdf
+
+Summary: Schur form OCM produces the same iteration as OCM, but solving an equation on $R^n$ instead of $R^{n-1}$, and is faster in general.
+Unitary form of Schur form OCM can compute all complex eigenpairs
+
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/EigenTensor.ipynb)
+
+Details:
 To compare, we imported the code from Jaffee's Binary Latent Variables
 https://github.com/arJaffe/BinaryLatentVariables
 the main procedure in that project is orthogonal_newton_correction_method.m
