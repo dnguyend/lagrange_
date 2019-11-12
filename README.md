@@ -9,7 +9,8 @@ We show an example where the method here provide an improvement to the eigen-ten
 We also show it leads to an algorithm to compute all complex eigenpairs (counted by Cartwright-Sturmfels formula):
 https://www.sciencedirect.com/science/article/pii/S0024379511004629
 
-The notebooks demonstrating this algorithm can be found here - you need to open it on Google colab by clicking on the link:
+The matlab code for the eigentensor algorithm can be found in the matlab folder.
+The other notebooks demonstrating this algorithm can be found here - to run online on Google colab you can click on the link:
 Eigentensor
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/EigenTensor.ipynb)
 
@@ -19,3 +20,6 @@ Nonlinear Eigenvalue:
 Eigenvector:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/Eigen.ipynb)
 
+Two Left Inverses: show that we can use one left inverse for lambda and another for projection.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg
+(https://colab.research.google.com/github/dnguyend/lagrange_rayleigh/blob/master/TwoLeftInverses.ipynb)
