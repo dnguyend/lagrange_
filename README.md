@@ -1,6 +1,8 @@
 Author: Du Nguyen
 
-This project contains supporting codes for the paper [Lagrange Multipliers and Rayleigh Quotient Iteration in Constrained Type Equations](https://github.com/dnguyend/lagrange_rayleigh/blob/master/docs/LagrangeRayleigh.pdf).
+This project contains supporting codes for an *older version* of the paper [Lagrange Multipliers and Rayleigh Quotient Iteration in Constrained Type Equations](https://github.com/dnguyend/lagrange_rayleigh/blob/master/docs/LagrangeRayleigh.pdf).
+
+# A new version is coming out - stay tuned.
 
 To run clone the project as a subfolder of some folder folder (say <parent>). You will see a folder <parent>/lagrange_rayleigh. Add <parent> to your PYTHONPATH and then run the codes in <parent>/lagrange_rayleigh/test/
 Python 3 but should be mostly compatible with python 2.7 Require numpy and scipy
